@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>수신 거부 - 뉴스레터 (시안)</title>
+  <link rel="stylesheet" href="../../NewsletterApp/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="mockup.css">
+</head>
+<body class="guest-body">
+  <div class="mock-bar"></div>
+
+  <!-- 상태: 확인 -->
+  <section data-state="확인">
+    <div class="card guest-card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="guest-title mb-3">수신 거부</h1>
+        <p>[유가 정보] 뉴스레터를 더 이상 받지 않으시겠어요?</p>
+        <button type="button" class="btn btn-danger w-100">수신 거부</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 상태: 로딩 중 -->
+  <section data-state="로딩 중">
+    <div class="card guest-card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="guest-title mb-3">수신 거부</h1>
+        <p>[유가 정보] 뉴스레터를 더 이상 받지 않으시겠어요?</p>
+        <button type="button" class="btn btn-danger w-100" disabled>
+          <span class="spinner-border spinner-border-sm me-1"></span>수신 거부
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 상태: 완료 -->
+  <section data-state="완료">
+    <div class="card guest-card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="guest-title mb-3">수신 거부</h1>
+        <p class="text-success">[유가 정보] 뉴스레터 수신을 거부했습니다. 다시 받으려면 로그인한 뒤 '내 구독'에서 켜 주세요.</p>
+        <a href="login.html">로그인</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 상태: 링크 오류 (데이터 없음) -->
+  <section data-state="링크 오류">
+    <div class="card guest-card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="guest-title mb-3">수신 거부</h1>
+        <p class="text-danger mb-0">링크가 올바르지 않거나 더 이상 쓸 수 없습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 상태: 오류 -->
+  <section data-state="오류">
+    <div class="card guest-card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="guest-title mb-3">수신 거부</h1>
+        <div class="alert alert-danger py-2">일시적인 오류가 발생했습니다. 잠시 뒤에 다시 시도해 주세요.</div>
+        <p>[유가 정보] 뉴스레터를 더 이상 받지 않으시겠어요?</p>
+        <button type="button" class="btn btn-danger w-100">수신 거부</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="mockup.js"></script>
+</body>
+</html>

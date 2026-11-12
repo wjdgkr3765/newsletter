@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "뉴스레터 설정";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="page-title mb-0">뉴스레터 설정</h1>
+    <button type="button" id="gubun-add-open" class="btn btn-primary">종류 추가</button>
+</div>
+<div id="gubuns-alert" hidden></div>
+<div id="gubuns-list"></div>
+
+<div class="modal fade" id="gubun-add-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">종류 추가</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body">
+                <div id="gubun-add-alert" hidden></div>
+                <div class="mb-3">
+                    <label class="form-label" for="gubun-add-name">종류 이름</label>
+                    <input type="text" id="gubun-add-name" class="form-control" maxlength="20">
+                    <div id="gubun-add-name-check" class="check-text"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="gubun-add-hour">발송 시간 (한국 시간)</label>
+                    <div class="d-flex align-items-center gap-2">
+                        <select id="gubun-add-hour" class="form-select time-select"></select>시
+                        <select id="gubun-add-minute" class="form-select time-select" aria-label="분"></select>분
+                    </div>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="gubun-add-is-use">
+                    <label class="form-check-label" for="gubun-add-is-use" id="gubun-add-is-use-label">사용 안 함</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" id="gubun-add-submit" class="btn btn-primary" disabled>추가</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/validation.js" asp-append-version="true"></script>
+    <script src="~/js/gubuns.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>뉴스레터 설정 - 뉴스레터 (시안)</title>
+  <link rel="stylesheet" href="../../NewsletterApp/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+  <div class="mock-bar"></div>
+  <div class="app">
+    <nav class="sidebar" data-sidebar data-role="admin" data-active="gubuns"></nav>
+    <main class="app-main">
+      <div class="app-content">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h1 class="page-title mb-0">뉴스레터 설정</h1>
+          <button type="button" class="btn btn-primary">종류 추가</button>
+        </div>
+
+        <!-- 상태: 목록 있음 -->
+        <section data-state="목록 있음">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr><th>종류</th><th>발송 시간</th><th>사용 여부</th></tr>
+            </thead>
+            <tbody>
+              <tr class="clickable-row">
+                <td><a href="gubun_detail.html" class="text-reset text-decoration-none">날씨 정보</a></td>
+                <td>07:30</td>
+                <td><span class="badge text-bg-success">사용</span></td>
+              </tr>
+              <tr class="clickable-row">
+                <td><a href="gubun_detail.html" class="text-reset text-decoration-none">유가 정보</a></td>
+                <td>16:00</td>
+                <td><span class="badge text-bg-success">사용</span></td>
+              </tr>
+              <tr class="clickable-row">
+                <td><a href="gubun_detail.html" class="text-reset text-decoration-none">주식 정보</a></td>
+                <td class="text-secondary">설정 없음</td>
+                <td class="text-secondary">설정 없음</td>
+              </tr>
+              <tr class="clickable-row">
+                <td><a href="gubun_detail.html" class="text-reset text-decoration-none">환율 정보</a></td>
+                <td>09:00</td>
+                <td><span class="badge text-bg-secondary">사용 안 함</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 종류 추가 팝업 -->
+        <section data-state="종류 추가 팝업">
+          <div class="modal mock-modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">종류 추가</h5>
+                  <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label class="form-label">종류 이름</label>
+                    <input type="text" class="form-control" maxlength="20">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">발송 시간 (한국 시간)</label>
+                    <div class="d-flex align-items-center gap-2">
+                      <select class="form-select time-select"><option>15</option><option selected>16</option><option>17</option></select>시
+                      <select class="form-select time-select"><option selected>00</option><option>01</option><option>59</option></select>분
+                    </div>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="add-is-use">
+                    <label class="form-check-label" for="add-is-use">사용 안 함</label>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary">취소</button>
+                  <button type="button" class="btn btn-primary" disabled>추가</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="text-secondary small mt-2">(시·분 선택 상자는 00~23시, 00~59분 전체가 들어간다)</p>
+        </section>
+
+        <!-- 상태: 입력 오류 -->
+        <section data-state="입력 오류">
+          <div class="modal mock-modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">종류 추가</h5>
+                  <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label class="form-label">종류 이름</label>
+                    <input type="text" class="form-control is-invalid" value="유가 정보" maxlength="20">
+                    <div class="invalid-feedback">이미 있는 종류 이름입니다.</div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">발송 시간 (한국 시간)</label>
+                    <div class="d-flex align-items-center gap-2">
+                      <select class="form-select time-select"><option selected>16</option></select>시
+                      <select class="form-select time-select"><option selected>00</option></select>분
+                    </div>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="err-is-use" checked>
+                    <label class="form-check-label" for="err-is-use">사용</label>
+                  </div>
+                  <p class="text-secondary small mt-2 mb-0">(빈 값이나 20자 초과면 "종류 이름을 1~20자로 입력해 주세요.")</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary">취소</button>
+                  <button type="button" class="btn btn-primary">추가</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 저장 중 -->
+        <section data-state="저장 중">
+          <div class="modal mock-modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">종류 추가</h5>
+                </div>
+                <div class="modal-body">
+                  <input type="text" class="form-control" value="환율 정보" maxlength="20">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" disabled>취소</button>
+                  <button type="button" class="btn btn-primary" disabled>
+                    <span class="spinner-border spinner-border-sm me-1"></span>추가
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 추가 완료 -->
+        <section data-state="추가 완료">
+          <div class="alert alert-success">종류를 추가했습니다.</div>
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr><th>종류</th><th>발송 시간</th><th>사용 여부</th></tr>
+            </thead>
+            <tbody>
+              <tr class="clickable-row">
+                <td><a href="gubun_detail.html" class="text-reset text-decoration-none">환율 정보</a></td>
+                <td>16:00</td>
+                <td><span class="badge text-bg-secondary">사용 안 함</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 로딩 중 -->
+        <section data-state="로딩 중">
+          <div class="text-center text-secondary py-5">
+            <div class="spinner-border mb-2"></div>
+            <div>불러오는 중</div>
+          </div>
+        </section>
+
+        <!-- 상태: 데이터 없음 -->
+        <section data-state="데이터 없음">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>종류</th><th>발송 시간</th><th>사용 여부</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" class="text-center text-secondary py-4">등록된 종류가 없습니다. '종류 추가'로 추가해 주세요.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 오류 -->
+        <section data-state="오류">
+          <div class="alert alert-danger d-flex justify-content-between align-items-center">
+            <span>목록을 불러오지 못했습니다.</span>
+            <button type="button" class="btn btn-sm btn-outline-danger">다시 시도</button>
+          </div>
+          <p class="text-secondary small">(추가 실패는 팝업 안 빨간 알림에 API 메시지)</p>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="mockup.js"></script>
+</body>
+</html>

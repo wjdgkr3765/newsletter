@@ -1,0 +1,50 @@
+﻿@{
+    bool isAdmin = User.IsInRole(ClaimsPrincipalExtensions.AdminRole);
+    string menu = ViewData["Menu"] as string ?? "";
+    var menus = new List<(string Key, string Label, string Href, bool IsAdminOnly)>
+    {
+        ("history", "뉴스레터 수신 내역", "/newsletters", false),
+        ("my_subscriptions", "내 구독", "/my/subscriptions", false),
+        ("users", "회원 관리", "/admin/users", true),
+        ("admin_subscriptions", "구독", "/admin/subscriptions", true),
+        ("gubuns", "뉴스레터 설정", "/admin/gubuns", true),
+        ("profile", "내 정보", "/my/profile", false)
+    };
+}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
+    <title>@ViewData["Title"] - 뉴스레터</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app">
+        <nav class="sidebar">
+            <div class="sidebar-brand mb-1">뉴스레터</div>
+            <div class="text-secondary small mb-3"><span id="sidebar-user-name">@User.GetDisplayName()</span> 님</div>
+            <ul class="nav nav-pills flex-column gap-1">
+                @foreach (var item in menus.Where(m => isAdmin || !m.IsAdminOnly))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(item.Key == menu ? "active" : "")" href="@item.Href">@item.Label</a>
+                    </li>
+                }
+            </ul>
+            <button type="button" class="btn btn-link text-secondary sidebar-logout text-start ps-0" data-logout>로그아웃</button>
+        </nav>
+        <main class="app-main">
+            <div class="app-content">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+    <partial name="_ConfirmModal" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/common.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

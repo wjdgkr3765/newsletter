@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>내 정보 - 뉴스레터 (시안)</title>
+  <link rel="stylesheet" href="../../NewsletterApp/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+  <div class="mock-bar"></div>
+  <div class="app">
+    <nav class="sidebar" data-sidebar data-role="user" data-active="profile"></nav>
+    <main class="app-main">
+      <div class="app-content">
+        <h1 class="page-title">내 정보</h1>
+
+        <!-- 상태: 기본 (일반 사용자) -->
+        <section data-state="기본 (일반 사용자)" data-role="user">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">기본 정보</h2>
+              <dl class="row mb-3">
+                <dt class="col-2">아이디</dt><dd class="col-10">hong1234</dd>
+                <dt class="col-2">가입일</dt><dd class="col-10">2026-11-01</dd>
+              </dl>
+              <div class="mb-3 input-max">
+                <label class="form-label">이름</label>
+                <input type="text" class="form-control" value="홍길동" maxlength="30">
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">이메일</label>
+                <input type="email" class="form-control" value="hong@example.com" maxlength="50">
+              </div>
+              <button type="button" class="btn btn-primary">저장</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">비밀번호 변경</h2>
+              <div class="mb-3 input-max">
+                <label class="form-label">현재 비밀번호</label>
+                <input type="password" class="form-control" maxlength="20">
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">새 비밀번호</label>
+                <input type="password" class="form-control" maxlength="20">
+                <div class="form-text check-text">8~20자, 영문·숫자·특수문자 각 1자 이상</div>
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">새 비밀번호 확인</label>
+                <input type="password" class="form-control" maxlength="20">
+              </div>
+              <button type="button" class="btn btn-primary">비밀번호 변경</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">회원 탈퇴</h2>
+              <p class="text-secondary">탈퇴하면 구독과 수신 내역이 모두 지워지고 되돌릴 수 없습니다.</p>
+              <button type="button" class="btn btn-outline-danger">회원 탈퇴</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 기본 (관리자) -->
+        <section data-state="기본 (관리자)" data-role="admin">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">기본 정보</h2>
+              <dl class="row mb-3">
+                <dt class="col-2">아이디</dt><dd class="col-10">admin01</dd>
+                <dt class="col-2">가입일</dt><dd class="col-10">2026-10-01</dd>
+              </dl>
+              <div class="mb-3 input-max">
+                <label class="form-label">이름</label>
+                <input type="text" class="form-control" value="관리자" maxlength="30">
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">이메일</label>
+                <input type="email" class="form-control" value="admin@example.com" maxlength="50">
+              </div>
+              <button type="button" class="btn btn-primary">저장</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">비밀번호 변경</h2>
+              <p class="text-secondary small mb-0">(일반 사용자와 같다)</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">회원 탈퇴</h2>
+              <p class="text-secondary mb-0">관리자는 탈퇴할 수 없습니다.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 이메일 변경 중 -->
+        <section data-state="이메일 변경 중" data-role="user">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">기본 정보</h2>
+              <dl class="row mb-3">
+                <dt class="col-2">아이디</dt><dd class="col-10">hong1234</dd>
+                <dt class="col-2">가입일</dt><dd class="col-10">2026-11-01</dd>
+              </dl>
+              <div class="mb-3 input-max">
+                <label class="form-label">이름</label>
+                <input type="text" class="form-control" value="홍길동" maxlength="30">
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">이메일</label>
+                <div class="input-group">
+                  <input type="email" class="form-control" value="new@example.com" maxlength="50">
+                  <button type="button" class="btn btn-outline-secondary">다시 받기</button>
+                </div>
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">인증 코드</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="숫자 6자리" maxlength="6" inputmode="numeric">
+                  <span class="input-group-text text-danger">남은 시간 09:59</span>
+                  <button type="button" class="btn btn-outline-secondary" disabled>확인</button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary" disabled>저장</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 이메일 인증 완료 -->
+        <section data-state="이메일 인증 완료" data-role="user">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">기본 정보</h2>
+              <dl class="row mb-3">
+                <dt class="col-2">아이디</dt><dd class="col-10">hong1234</dd>
+                <dt class="col-2">가입일</dt><dd class="col-10">2026-11-01</dd>
+              </dl>
+              <div class="mb-3 input-max">
+                <label class="form-label">이름</label>
+                <input type="text" class="form-control" value="홍길동" maxlength="30">
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">이메일</label>
+                <div class="input-group">
+                  <input type="email" class="form-control" value="new@example.com" maxlength="50" readonly>
+                  <button type="button" class="btn btn-outline-secondary" disabled>다시 받기</button>
+                </div>
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">인증 코드</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" value="123456" maxlength="6" readonly>
+                  <button type="button" class="btn btn-outline-secondary" disabled>확인</button>
+                </div>
+                <div class="text-success check-text mt-1">인증되었습니다.</div>
+              </div>
+              <button type="button" class="btn btn-primary">저장</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 입력 오류 -->
+        <section data-state="입력 오류" data-role="user">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">기본 정보</h2>
+              <div class="mb-3 input-max">
+                <label class="form-label">이름</label>
+                <input type="text" class="form-control is-invalid" value="홍" maxlength="30">
+                <div class="invalid-feedback check-text">이름을 2~30자로 입력해 주세요.</div>
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">이메일</label>
+                <div class="input-group has-validation">
+                  <input type="email" class="form-control is-invalid" value="other@example.com" maxlength="50">
+                  <button type="button" class="btn btn-outline-secondary">인증 코드 받기</button>
+                  <div class="invalid-feedback check-text">이미 사용 중인 이메일입니다.</div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary" disabled>저장</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">비밀번호 변경</h2>
+              <div class="mb-3 input-max">
+                <label class="form-label">현재 비밀번호</label>
+                <input type="password" class="form-control is-invalid" value="wrong" maxlength="20">
+                <div class="invalid-feedback check-text">현재 비밀번호가 맞지 않습니다.</div>
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">새 비밀번호</label>
+                <input type="password" class="form-control is-invalid" value="abc" maxlength="20">
+                <div class="invalid-feedback check-text">8~20자, 영문·숫자·특수문자를 각 1자 이상 넣어 주세요.</div>
+              </div>
+              <div class="mb-3 input-max">
+                <label class="form-label">새 비밀번호 확인</label>
+                <input type="password" class="form-control is-invalid" value="abcd" maxlength="20">
+                <div class="invalid-feedback check-text">비밀번호가 같지 않습니다.</div>
+              </div>
+              <button type="button" class="btn btn-primary">비밀번호 변경</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 저장 완료 -->
+        <section data-state="저장 완료" data-role="user">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">기본 정보</h2>
+              <div class="alert alert-success py-2">저장했습니다.</div>
+              <p class="text-secondary small mb-0">(입력 칸은 기본 상태와 같다)</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">비밀번호 변경</h2>
+              <div class="alert alert-success py-2">비밀번호를 바꿨습니다.</div>
+              <p class="text-secondary small mb-0">(세 칸을 비운다. 로그인은 유지된다)</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 저장 중 -->
+        <section data-state="저장 중" data-role="user">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">기본 정보</h2>
+              <button type="button" class="btn btn-primary" disabled>
+                <span class="spinner-border spinner-border-sm me-1"></span>저장
+              </button>
+              <p class="text-secondary small mt-2 mb-0">(누른 버튼만 비활성화와 스피너)</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 탈퇴 확인 팝업 -->
+        <section data-state="탈퇴 확인 팝업" data-role="user">
+          <div class="modal mock-modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">회원 탈퇴</h5>
+                  <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>탈퇴하면 구독과 수신 내역이 모두 지워지고 되돌릴 수 없습니다. 탈퇴하려면 현재 비밀번호를 입력해 주세요.</p>
+                  <input type="password" class="form-control is-invalid" placeholder="현재 비밀번호" maxlength="20">
+                  <div class="invalid-feedback">비밀번호를 입력해 주세요.</div>
+                </div>
+                <div class="modal-footer">
+                  <a href="profile.html" class="btn btn-secondary">취소</a>
+                  <a href="login.html" class="btn btn-danger">탈퇴</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 로딩 중 -->
+        <section data-state="로딩 중" data-role="user">
+          <div class="text-center text-secondary py-5">
+            <div class="spinner-border mb-2"></div>
+            <div>불러오는 중</div>
+          </div>
+        </section>
+
+        <!-- 상태: 오류 -->
+        <section data-state="오류" data-role="user">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title-lg mb-3">기본 정보</h2>
+              <div class="alert alert-danger py-2">일시적인 오류가 발생했습니다. 잠시 뒤에 다시 시도해 주세요.</div>
+              <p class="text-secondary small mb-0">(오류는 그 카드 안 빨간 알림에 API 메시지로 나온다)</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="mockup.js"></script>
+</body>
+</html>

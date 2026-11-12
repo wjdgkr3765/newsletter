@@ -1,0 +1,96 @@
+@{
+    ViewData["Title"] = "내 정보";
+}
+<h1 class="page-title">내 정보</h1>
+<div id="profile-loading"></div>
+<div id="profile-content" hidden>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title-lg mb-3">기본 정보</h2>
+            <div id="profile-info-alert" hidden></div>
+            <dl class="row mb-3">
+                <dt class="col-2">아이디</dt><dd class="col-10" id="profile-login-id"></dd>
+                <dt class="col-2">가입일</dt><dd class="col-10" id="profile-create-date"></dd>
+            </dl>
+            <div class="mb-3 input-max">
+                <label class="form-label" for="profile-name">이름</label>
+                <input type="text" id="profile-name" class="form-control" maxlength="30">
+                <div id="profile-name-check" class="check-text"></div>
+            </div>
+            <div class="mb-3 input-max">
+                <label class="form-label" for="profile-email">이메일</label>
+                <div class="input-group">
+                    <input type="email" id="profile-email" class="form-control" maxlength="50">
+                    <button type="button" id="profile-send-code" class="btn btn-outline-secondary" hidden>인증 코드 받기</button>
+                </div>
+                <div id="profile-email-check" class="check-text"></div>
+            </div>
+            <div class="mb-3 input-max" id="profile-code-area" hidden>
+                <label class="form-label" for="profile-code">인증 코드</label>
+                <div class="input-group">
+                    <input type="text" id="profile-code" class="form-control" placeholder="숫자 6자리" maxlength="6" inputmode="numeric">
+                    <span class="input-group-text text-danger" id="profile-code-timer"></span>
+                    <button type="button" id="profile-verify-code" class="btn btn-outline-secondary" disabled>확인</button>
+                </div>
+                <div id="profile-code-check" class="check-text"></div>
+            </div>
+            <button type="button" id="profile-save" class="btn btn-primary">저장</button>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title-lg mb-3">비밀번호 변경</h2>
+            <div id="profile-password-alert" hidden></div>
+            <div class="mb-3 input-max">
+                <label class="form-label" for="profile-current-password">현재 비밀번호</label>
+                <input type="password" id="profile-current-password" class="form-control" maxlength="20" autocomplete="current-password">
+                <div id="profile-current-password-check" class="check-text"></div>
+            </div>
+            <div class="mb-3 input-max">
+                <label class="form-label" for="profile-new-password">새 비밀번호</label>
+                <input type="password" id="profile-new-password" class="form-control" maxlength="20" autocomplete="new-password">
+                <div id="profile-new-password-check" class="check-text form-text mt-1" data-hint="8~20자, 영문·숫자·특수문자 각 1자 이상">8~20자, 영문·숫자·특수문자 각 1자 이상</div>
+            </div>
+            <div class="mb-3 input-max">
+                <label class="form-label" for="profile-new-password-confirm">새 비밀번호 확인</label>
+                <input type="password" id="profile-new-password-confirm" class="form-control" maxlength="20" autocomplete="new-password">
+                <div id="profile-new-password-confirm-check" class="check-text"></div>
+            </div>
+            <button type="button" id="profile-change-password" class="btn btn-primary">비밀번호 변경</button>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title-lg mb-3">회원 탈퇴</h2>
+            <div id="profile-withdraw-user" hidden>
+                <p class="text-secondary">탈퇴하면 구독과 수신 내역이 모두 지워지고 되돌릴 수 없습니다.</p>
+                <button type="button" id="profile-withdraw" class="btn btn-outline-danger">회원 탈퇴</button>
+            </div>
+            <p id="profile-withdraw-admin" class="text-secondary mb-0" hidden>관리자는 탈퇴할 수 없습니다.</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="withdraw-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">회원 탈퇴</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body">
+                <p>탈퇴하면 구독과 수신 내역이 모두 지워지고 되돌릴 수 없습니다. 탈퇴하려면 현재 비밀번호를 입력해 주세요.</p>
+                <input type="password" id="withdraw-password" class="form-control" placeholder="현재 비밀번호" maxlength="20" autocomplete="current-password">
+                <div id="withdraw-password-check" class="check-text"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" id="withdraw-submit" class="btn btn-danger">탈퇴</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/validation.js" asp-append-version="true"></script>
+    <script src="~/js/profile.js" asp-append-version="true"></script>
+}

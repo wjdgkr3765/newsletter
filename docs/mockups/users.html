@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>회원 관리 - 뉴스레터 (시안)</title>
+  <link rel="stylesheet" href="../../NewsletterApp/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+  <div class="mock-bar"></div>
+  <div class="app">
+    <nav class="sidebar" data-sidebar data-role="admin" data-active="users"></nav>
+    <main class="app-main">
+      <div class="app-content">
+        <h1 class="page-title">회원 관리</h1>
+
+        <!-- 상태: 목록 있음 -->
+        <section data-state="목록 있음">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>아이디</th><th>이름</th><th>권한</th><th>상태</th><th>가입일</th><th>관리</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>admin01</td><td>관리자</td>
+                <td><span class="badge text-bg-primary">관리자</span></td>
+                <td><span class="badge text-bg-success">정상</span></td>
+                <td>2026-10-01</td>
+                <td><button type="button" class="btn btn-sm btn-outline-danger" disabled title="자기 자신은 정지할 수 없습니다.">정지</button></td>
+              </tr>
+              <tr>
+                <td>kim5678</td><td>김철수</td>
+                <td><span class="badge text-bg-secondary">일반</span></td>
+                <td><span class="badge text-bg-danger">정지</span></td>
+                <td>2026-11-03</td>
+                <td><button type="button" class="btn btn-sm btn-outline-secondary">정지 해제</button></td>
+              </tr>
+              <tr>
+                <td>hong1234</td><td>홍길동</td>
+                <td><span class="badge text-bg-secondary">일반</span></td>
+                <td><span class="badge text-bg-success">정상</span></td>
+                <td>2026-11-01</td>
+                <td><button type="button" class="btn btn-sm btn-outline-danger">정지</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <nav>
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">다음</a></li>
+            </ul>
+          </nav>
+        </section>
+
+        <!-- 상태: 정지 확인 팝업 -->
+        <section data-state="정지 확인 팝업">
+          <div class="modal mock-modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">회원 정지</h5>
+                  <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                  홍길동(hong1234) 회원을 정지할까요? 정지하면 다음 로그인부터 로그인할 수 없고 뉴스레터를 받지 않습니다.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary">취소</button>
+                  <button type="button" class="btn btn-danger">확인</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 정지 해제 확인 팝업 -->
+        <section data-state="정지 해제 확인 팝업">
+          <div class="modal mock-modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">정지 해제</h5>
+                  <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body">김철수(kim5678) 회원의 정지를 풀까요?</div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary">취소</button>
+                  <button type="button" class="btn btn-primary">확인</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 처리 중 -->
+        <section data-state="처리 중">
+          <div class="modal mock-modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">회원 정지</h5>
+                </div>
+                <div class="modal-body">
+                  홍길동(hong1234) 회원을 정지할까요? 정지하면 다음 로그인부터 로그인할 수 없고 뉴스레터를 받지 않습니다.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" disabled>취소</button>
+                  <button type="button" class="btn btn-danger" disabled>
+                    <span class="spinner-border spinner-border-sm me-1"></span>확인
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상태: 처리 완료 -->
+        <section data-state="처리 완료">
+          <div class="alert alert-success">정지했습니다.</div>
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>아이디</th><th>이름</th><th>권한</th><th>상태</th><th>가입일</th><th>관리</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>hong1234</td><td>홍길동</td>
+                <td><span class="badge text-bg-secondary">일반</span></td>
+                <td><span class="badge text-bg-danger">정지</span></td>
+                <td>2026-11-01</td>
+                <td><button type="button" class="btn btn-sm btn-outline-secondary">정지 해제</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 로딩 중 -->
+        <section data-state="로딩 중">
+          <div class="text-center text-secondary py-5">
+            <div class="spinner-border mb-2"></div>
+            <div>불러오는 중</div>
+          </div>
+        </section>
+
+        <!-- 상태: 데이터 없음 -->
+        <section data-state="데이터 없음">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>아이디</th><th>이름</th><th>권한</th><th>상태</th><th>가입일</th><th>관리</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" class="text-center text-secondary py-4">회원이 없습니다.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 오류 -->
+        <section data-state="오류">
+          <div class="alert alert-danger d-flex justify-content-between align-items-center">
+            <span>목록을 불러오지 못했습니다.</span>
+            <button type="button" class="btn btn-sm btn-outline-danger">다시 시도</button>
+          </div>
+          <div class="alert alert-danger">자기 자신은 정지할 수 없습니다.</div>
+          <p class="text-secondary small">(두 번째 알림은 정지·정지 해제 실패 시 API 메시지)</p>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="mockup.js"></script>
+</body>
+</html>

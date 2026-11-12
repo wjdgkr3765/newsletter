@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "발송 설정 상세";
+}
+<a href="/admin/gubuns" class="d-inline-block mb-2">← 뉴스레터 설정</a>
+<h1 class="page-title" id="gubun-name">&nbsp;</h1>
+<div id="gubun-detail" data-gubun-id="@ViewData["GubunId"]">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title-lg mb-3">발송 설정</h2>
+            <div id="config-alert" hidden></div>
+            <div id="config-loading"></div>
+            <div id="config-form" hidden>
+                <p class="text-secondary" id="config-empty" hidden>발송 설정이 없습니다. 저장하면 만들어집니다.</p>
+                <div class="mb-3">
+                    <label class="form-label" for="config-hour">발송 시간</label>
+                    <div class="d-flex align-items-center gap-2">
+                        <select id="config-hour" class="form-select time-select"></select>시
+                        <select id="config-minute" class="form-select time-select" aria-label="분"></select>분
+                        <span class="text-secondary">(한국 시간)</span>
+                    </div>
+                </div>
+                <div class="mb-1 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="config-is-use">
+                    <label class="form-check-label" for="config-is-use" id="config-is-use-label">사용 안 함</label>
+                </div>
+                <p class="text-secondary small">사용 안 함이면 자동 발송하지 않습니다.</p>
+                <button type="button" id="config-save" class="btn btn-primary">저장</button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title-lg mb-3" id="today-title">오늘 뉴스레터</h2>
+            <div id="today-alert" hidden></div>
+            <div id="today-content"></div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/gubun_detail.js" asp-append-version="true"></script>
+}

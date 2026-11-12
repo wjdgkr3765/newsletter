@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>내 구독 - 뉴스레터 (시안)</title>
+  <link rel="stylesheet" href="../../NewsletterApp/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+  <div class="mock-bar"></div>
+  <div class="app">
+    <nav class="sidebar" data-sidebar data-role="user" data-active="my_subscriptions"></nav>
+    <main class="app-main">
+      <div class="app-content">
+        <h1 class="page-title">내 구독</h1>
+
+        <!-- 상태: 목록 있음 -->
+        <section data-state="목록 있음">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>종류</th><th>발송 시간</th><th class="check-col">구독</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>날씨 정보</td><td>매일 07:30</td>
+                <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" checked></div></td>
+              </tr>
+              <tr>
+                <td>유가 정보</td><td>매일 16:00</td>
+                <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch"></div></td>
+              </tr>
+              <tr>
+                <td>환율 정보</td><td class="text-secondary">지금은 발송하지 않음</td>
+                <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" checked></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 저장 중 -->
+        <section data-state="저장 중">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>종류</th><th>발송 시간</th><th class="check-col">구독</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>날씨 정보</td><td>매일 07:30</td>
+                <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" checked></div></td>
+              </tr>
+              <tr>
+                <td>유가 정보</td><td>매일 16:00</td>
+                <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" checked disabled></div></td>
+              </tr>
+              <tr>
+                <td>환율 정보</td><td class="text-secondary">지금은 발송하지 않음</td>
+                <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" checked></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 로딩 중 -->
+        <section data-state="로딩 중">
+          <div class="text-center text-secondary py-5">
+            <div class="spinner-border mb-2"></div>
+            <div>불러오는 중</div>
+          </div>
+        </section>
+
+        <!-- 상태: 데이터 없음 -->
+        <section data-state="데이터 없음">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>종류</th><th>발송 시간</th><th class="check-col">구독</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" class="text-center text-secondary py-4">등록된 뉴스레터 종류가 없습니다.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 오류 (목록) -->
+        <section data-state="오류 (목록)">
+          <div class="alert alert-danger d-flex justify-content-between align-items-center">
+            <span>목록을 불러오지 못했습니다.</span>
+            <button type="button" class="btn btn-sm btn-outline-danger">다시 시도</button>
+          </div>
+        </section>
+
+        <!-- 상태: 오류 (저장) -->
+        <section data-state="오류 (저장)">
+          <div class="alert alert-danger">일시적인 오류가 발생했습니다. 잠시 뒤에 다시 시도해 주세요.</div>
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>종류</th><th>발송 시간</th><th class="check-col">구독</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>날씨 정보</td><td>매일 07:30</td>
+                <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" checked></div></td>
+              </tr>
+              <tr>
+                <td>유가 정보</td><td>매일 16:00</td>
+                <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch"></div></td>
+              </tr>
+              <tr>
+                <td>환율 정보</td><td class="text-secondary">지금은 발송하지 않음</td>
+                <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" checked></div></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="text-secondary small">(켠 스위치가 실패해 꺼진 상태로 되돌아감)</p>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="mockup.js"></script>
+</body>
+</html>

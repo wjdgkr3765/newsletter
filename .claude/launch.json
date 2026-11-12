@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mockups",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/wjdgk/AppData/Local/Temp/claude/788c94067554ef26/d3bd4822-dd0b-4fd2-89c3-671217ba5f00/scratchpad/static_server.js", "C:/zzz/newsletter", "8765"],
+      "port": 8765
+    },
+    {
+      "name": "app-check",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["C:/Users/wjdgk/AppData/Local/Temp/claude/788c94067554ef26/d3bd4822-dd0b-4fd2-89c3-671217ba5f00/scratchpad/run_check.sh"],
+      "port": 5115
+    }
+  ]
+}

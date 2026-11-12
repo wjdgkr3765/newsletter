@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>구독 - 뉴스레터 (시안)</title>
+  <link rel="stylesheet" href="../../NewsletterApp/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+  <div class="mock-bar"></div>
+  <div class="app">
+    <nav class="sidebar" data-sidebar data-role="admin" data-active="admin_subscriptions"></nav>
+    <main class="app-main">
+      <div class="app-content">
+
+        <!-- 상태: 전체 -->
+        <section data-state="전체">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="page-title mb-0">구독</h1>
+            <select class="form-select gubun-dropdown">
+              <option selected>전체</option>
+              <option>날씨 정보</option>
+              <option>유가 정보</option>
+            </select>
+          </div>
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>이름</th><th>이메일</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>관리자</td><td>admin@example.com</td></tr>
+              <tr><td>이영희</td><td>lee@example.com</td></tr>
+              <tr><td>홍길동</td><td>hong@example.com</td></tr>
+            </tbody>
+          </table>
+          <nav>
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">다음</a></li>
+            </ul>
+          </nav>
+        </section>
+
+        <!-- 상태: 종류 선택 -->
+        <section data-state="종류 선택">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="page-title mb-0">구독</h1>
+            <select class="form-select gubun-dropdown">
+              <option>전체</option>
+              <option>날씨 정보</option>
+              <option selected>유가 정보</option>
+            </select>
+          </div>
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th class="check-col">구독</th><th>이름</th><th>이메일</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><input class="form-check-input" type="checkbox" checked></td><td>관리자</td><td>admin@example.com</td></tr>
+              <tr><td><input class="form-check-input" type="checkbox"></td><td>이영희</td><td>lee@example.com</td></tr>
+              <tr><td><input class="form-check-input" type="checkbox" checked></td><td>홍길동</td><td>hong@example.com</td></tr>
+            </tbody>
+          </table>
+          <nav>
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">다음</a></li>
+            </ul>
+          </nav>
+        </section>
+
+        <!-- 상태: 저장 중 -->
+        <section data-state="저장 중">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="page-title mb-0">구독</h1>
+            <select class="form-select gubun-dropdown">
+              <option>전체</option>
+              <option>날씨 정보</option>
+              <option selected>유가 정보</option>
+            </select>
+          </div>
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th class="check-col">구독</th><th>이름</th><th>이메일</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><input class="form-check-input" type="checkbox" checked></td><td>관리자</td><td>admin@example.com</td></tr>
+              <tr><td><input class="form-check-input" type="checkbox" checked disabled></td><td>이영희</td><td>lee@example.com</td></tr>
+              <tr><td><input class="form-check-input" type="checkbox" checked></td><td>홍길동</td><td>hong@example.com</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 종류 없음 -->
+        <section data-state="종류 없음">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="page-title mb-0">구독</h1>
+            <select class="form-select gubun-dropdown">
+              <option selected>전체</option>
+            </select>
+          </div>
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>이름</th><th>이메일</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>홍길동</td><td>hong@example.com</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 로딩 중 -->
+        <section data-state="로딩 중">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="page-title mb-0">구독</h1>
+            <select class="form-select gubun-dropdown"><option selected>전체</option></select>
+          </div>
+          <div class="text-center text-secondary py-5">
+            <div class="spinner-border mb-2"></div>
+            <div>불러오는 중</div>
+          </div>
+        </section>
+
+        <!-- 상태: 데이터 없음 -->
+        <section data-state="데이터 없음">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="page-title mb-0">구독</h1>
+            <select class="form-select gubun-dropdown"><option selected>전체</option></select>
+          </div>
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>이름</th><th>이메일</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="2" class="text-center text-secondary py-4">회원이 없습니다.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 오류 -->
+        <section data-state="오류">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="page-title mb-0">구독</h1>
+            <select class="form-select gubun-dropdown"><option selected>유가 정보</option></select>
+          </div>
+          <div class="alert alert-danger d-flex justify-content-between align-items-center">
+            <span>목록을 불러오지 못했습니다.</span>
+            <button type="button" class="btn btn-sm btn-outline-danger">다시 시도</button>
+          </div>
+          <div class="alert alert-danger">대상이 없습니다.</div>
+          <p class="text-secondary small">(두 번째 알림은 구독·해지 실패 시 API 메시지. 체크는 되돌린다)</p>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="mockup.js"></script>
+</body>
+</html>

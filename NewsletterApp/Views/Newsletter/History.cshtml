@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "뉴스레터 수신 내역";
+}
+<h1 class="page-title">뉴스레터 수신 내역</h1>
+<div id="history-alert" hidden></div>
+<div id="history-list"></div>
+<nav id="history-pagination"></nav>
+
+<div class="modal fade" id="newsletter-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title" id="newsletter-modal-title"></h5>
+                    <div class="text-secondary small" id="newsletter-modal-info"></div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body" id="newsletter-modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/history.js" asp-append-version="true"></script>
+}

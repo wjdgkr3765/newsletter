@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="NewsletterApp.Tests/NewsletterApp.Tests.csproj" />
+  <Project Path="NewsletterApp/NewsletterApp.csproj" />
+</Solution>

@@ -1,0 +1,23 @@
+@{
+    Layout = "_GuestLayout";
+    ViewData["Title"] = "수신 거부";
+    string? gubunName = ViewData["GubunName"] as string;
+}
+<h1 class="guest-title mb-3">수신 거부</h1>
+<p id="unsubscribe-invalid" class="text-danger mb-0" @(gubunName is null ? "" : "hidden")>링크가 올바르지 않거나 더 이상 쓸 수 없습니다.</p>
+@if (gubunName is not null)
+{
+    <div id="unsubscribe-error" class="alert alert-danger py-2" hidden></div>
+    <div id="unsubscribe-confirm">
+        <p>[@gubunName] 뉴스레터를 더 이상 받지 않으시겠어요?</p>
+        <button type="button" id="unsubscribe-submit" class="btn btn-danger w-100"
+                data-token="@ViewData["Token"]">수신 거부</button>
+    </div>
+    <div id="unsubscribe-done" hidden>
+        <p class="text-success" id="unsubscribe-done-message"></p>
+        <a href="/login">로그인</a>
+    </div>
+}
+@section Scripts {
+    <script src="~/js/unsubscribe.js" asp-append-version="true"></script>
+}
