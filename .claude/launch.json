@@ -12,6 +12,12 @@
       "runtimeExecutable": "bash",
       "runtimeArgs": ["C:/Users/wjdgk/AppData/Local/Temp/claude/788c94067554ef26/d3bd4822-dd0b-4fd2-89c3-671217ba5f00/scratchpad/run_check.sh"],
       "port": 5115
+    },
+    {
+      "name": "app",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "C:/zzz/newsletter/NewsletterApp"],
+      "port": 5115
     }
   ]
 }
