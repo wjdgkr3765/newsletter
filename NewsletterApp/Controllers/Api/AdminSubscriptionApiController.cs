@@ -11,8 +11,9 @@ namespace NewsletterApp.Controllers.Api;
 public sealed class AdminSubscriptionApiController(SubscriptionService subscriptionService) : ApiControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetPage([FromQuery] long? gubunId, [FromQuery] int page = 1) =>
-        ToResult(await subscriptionService.GetForAdminAsync(gubunId, page));
+    public async Task<IActionResult> GetPage(
+        [FromQuery] long? gubunId, [FromQuery] int page = 1, [FromQuery] string? keyword = null) =>
+        ToResult(await subscriptionService.GetForAdminAsync(gubunId, page, keyword));
 
     [HttpPost]
     public async Task<IActionResult> Set(AdminSubscriptionRequest request) =>

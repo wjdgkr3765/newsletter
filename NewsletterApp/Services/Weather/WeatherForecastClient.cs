@@ -27,8 +27,6 @@ public sealed class WeatherForecastClient(
     // 02시 발표를 API로 받을 수 있는 시각 (발표 10분 뒤)
     private static readonly TimeOnly TodayBaseAvailable = new(2, 10);
 
-    private static readonly TimeSpan CacheTime = TimeSpan.FromHours(1);
-
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     private static readonly Dictionary<string, string> SkyNames = new()
@@ -68,9 +66,12 @@ public sealed class WeatherForecastClient(
             logger.LogWarning("날씨 예보 실패 {Region}: {Reason}", region.Name, failReason);
             return null;
         }
-        cache.Set(cacheKey, weather, CacheTime);
+        cache.Set(cacheKey, weather, TimeToDayEnd(kstNow));
         return weather;
     }
+
+    // 그날 끝(한국 시간 다음 날 00:00)까지 남은 시간. 지역마다 하루 한 번만 부른다. (D-011)
+    internal static TimeSpan TimeToDayEnd(DateTime kstNow) => kstNow.Date.AddDays(1) - kstNow;
 
     // 02:10(한국 시간) 이후면 오늘 02시 발표, 그 전이면 어제 23시 발표
     internal static (DateOnly BaseDate, string BaseTime) ChooseBase(DateTime kstNow)

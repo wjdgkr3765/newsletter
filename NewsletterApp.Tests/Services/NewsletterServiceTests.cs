@@ -306,4 +306,90 @@ public sealed class NewsletterServiceTests
         Assert.Single(second.Data!.Items);
         Assert.Equal(ErrorCodes.InvalidInput, (await service.GetPageAsync(1, 3)).ErrorCode);
     }
+
+    // ---------- 목록 검색 (D-012) ----------
+
+    [Fact]
+    public async Task Search_History_ByTitleOrGubunWithinVisible()
+    {
+        using var context = new TestScope();
+        Gubun oil = context.AddGubun("유가 정보");
+        Gubun weather = context.AddGubun("날씨 정보(서울)");
+        User hong = context.AddUser("hong1234");
+        User admin = context.AddUser("admin01", isAdmin: true);
+        context.Subscribe(hong, oil);
+        context.Subscribe(admin, weather);
+        await context.SendService().CreateAndSendAsync(oil.Id, CancellationToken.None);
+        await context.SendService().CreateAndSendAsync(weather.Id, CancellationToken.None);
+        var service = context.QueryService();
+
+        Assert.Equal("날씨 정보(서울)", Assert.Single((await service.GetPageAsync(admin.Id, true, 1, "서울")).Data!.Items).GubunName);
+        Assert.Equal(2, (await service.GetPageAsync(admin.Id, true, 1, "2026-11-12")).Data!.TotalCount); // 제목
+        Assert.Equal(2, (await service.GetPageAsync(admin.Id, true, 1, "  ")).Data!.TotalCount);         // 빈 검색어 = 전체
+        Assert.Empty((await service.GetPageAsync(hong.Id, false, 1, "서울")).Data!.Items);               // 받은 것 안에서만
+        Assert.Empty((await service.GetPageAsync(admin.Id, true, 1, "%")).Data!.Items);                  // %는 글자 그대로
+        Assert.Equal(ErrorCodes.InvalidInput,
+            (await service.GetPageAsync(admin.Id, true, 1, new string('가', 51))).ErrorCode);
+    }
+
+    [Fact]
+    public async Task Search_AdminUsers_ByLoginIdOrNameWithPaging()
+    {
+        using var context = new TestScope();
+        for (int i = 0; i < 11; i++)
+        {
+            context.AddUser($"find{i:D4}");
+        }
+        context.AddUser("other001");
+        var service = context.AdminUserService();
+
+        var first = await service.GetPageAsync(1, 1, "find");
+        Assert.Equal(11, first.Data!.TotalCount);
+        Assert.Equal(2, first.Data.TotalPages);
+        Assert.Single((await service.GetPageAsync(1, 2, "find")).Data!.Items);
+        Assert.Equal("other001", Assert.Single((await service.GetPageAsync(1, 1, "이름other")).Data!.Items).LoginId); // 이름
+        Assert.Equal(ErrorCodes.InvalidInput, (await service.GetPageAsync(1, 3, "find")).ErrorCode);
+        Assert.Equal(ErrorCodes.InvalidInput, (await service.GetPageAsync(1, 1, new string('a', 51))).ErrorCode);
+    }
+
+    [Fact]
+    public async Task Search_Subscriptions_MineAndAdmin()
+    {
+        using var context = new TestScope();
+        Gubun seoul = context.AddGubun("날씨 정보(서울)");
+        context.AddGubun("유가 정보");
+        User hong = context.AddUser("hong1234");
+        context.AddUser("kim12345");
+        context.AddUser("hongstop1", isSuspended: true);
+        context.Subscribe(hong, seoul);
+        var service = context.SubscriptionService();
+
+        var mine = Assert.Single((await service.GetMineAsync(hong.Id, "날씨")).Data!.Items);
+        Assert.True(mine.IsSubscribed);
+        Assert.Equal(2, (await service.GetMineAsync(hong.Id, "")).Data!.Items.Count);
+        Assert.Equal(ErrorCodes.InvalidInput, (await service.GetMineAsync(hong.Id, new string('가', 51))).ErrorCode);
+
+        var byEmail = await service.GetForAdminAsync(seoul.Id, 1, "hong1234@");
+        Assert.True(Assert.Single(byEmail.Data!.Items).IsSubscribed);                                   // 이메일, 종류 유지
+        Assert.Single((await service.GetForAdminAsync(null, 1, "hong")).Data!.Items);                   // 정지 회원 제외
+        Assert.Equal(2, (await service.GetForAdminAsync(null, 1, "이름")).Data!.TotalCount);             // 이름
+        Assert.Equal(ErrorCodes.InvalidInput,
+            (await service.GetForAdminAsync(null, 1, new string('a', 51))).ErrorCode);
+    }
+
+    [Fact]
+    public async Task Search_Gubuns_ByName()
+    {
+        using var context = new TestScope();
+        context.AddGubun("날씨 정보(서울)");
+        context.AddGubun("날씨 정보(부산)");
+        context.AddGubun("유가 정보");
+        var service = context.GubunService();
+
+        Assert.Equal(["날씨 정보(부산)", "날씨 정보(서울)"], (await service.GetAllAsync(" 날씨 ")).Data!.Items.Select(i => i.Name));
+        Assert.Equal(3, (await service.GetAllAsync()).Data!.Items.Count);
+        Assert.Empty((await service.GetAllAsync("환율")).Data!.Items);
+        Assert.Empty((await service.GetAllAsync("' OR '1'='1")).Data!.Items);   // 인젝션 문자열은 글자 그대로 찾는다
+        Assert.Equal(ErrorCodes.InvalidInput, (await service.GetAllAsync(new string('가', 51))).ErrorCode);
+    }
 }

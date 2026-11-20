@@ -24,7 +24,7 @@
 |인증 코드·로그인 실패 횟수 저장|ASP.NET Core IMemoryCache (앱 메모리)| .NET 10 기본 포함|
 |수신 거부 링크 토큰|ASP.NET Core Data Protection| .NET 10 기본 포함|
 |CSRF 방지|ASP.NET Core Antiforgery (요청 헤더 토큰)| .NET 10 기본 포함|
-|비밀 정보 관리|`.env` 파일 (DB 접속 정보, Gmail 주소, Gmail 앱 비밀번호), DotNetEnv로 읽어 환경 변수로 등록| |
+|비밀 정보 관리|`.env` 파일 (DB 접속 정보, Gmail 주소, Gmail 앱 비밀번호, 기상청 인증키), DotNetEnv로 읽어 환경 변수로 등록| |
 |테스트 도구|xUnit v3 (Microsoft Testing Platform, `global.json`)|4.0.3|
 |개발 도구|Visual Studio|2026|
 |실행 환경|로컬 PC (Windows)| |

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NewsletterApp.Data;
+using NewsletterApp.Data.Entities;
 using NewsletterApp.Models;
 using NewsletterApp.Models.Requests;
 using NewsletterApp.Models.Responses;
@@ -11,14 +12,24 @@ public sealed class AdminUserService(AppDbContext db)
 {
     public const int PageSize = 10;
 
-    public async Task<ServiceResult<PageResult<AdminUserItem>>> GetPageAsync(long currentUserId, int page)
+    public async Task<ServiceResult<PageResult<AdminUserItem>>> GetPageAsync(
+        long currentUserId, int page, string? keyword = null)
     {
-        int totalCount = await db.Users.CountAsync();
+        if (!InputRules.TryNormalizeKeyword(keyword, out string search))
+        {
+            return ServiceResult<PageResult<AdminUserItem>>.Fail(ErrorCodes.InvalidInput);
+        }
+        IQueryable<User> users = db.Users.AsNoTracking();
+        if (search.Length > 0)
+        {
+            users = users.Where(u => u.LoginId.Contains(search) || u.Name.Contains(search));
+        }
+        int totalCount = await users.CountAsync();
         if (!PageResult<AdminUserItem>.IsValidPage(page, totalCount, PageSize))
         {
             return ServiceResult<PageResult<AdminUserItem>>.Fail(ErrorCodes.InvalidInput);
         }
-        List<AdminUserItem> items = await db.Users.AsNoTracking()
+        List<AdminUserItem> items = await users
             .OrderBy(u => u.Name).ThenBy(u => u.LoginId)
             .Skip((page - 1) * PageSize).Take(PageSize)
             .Select(u => new AdminUserItem(

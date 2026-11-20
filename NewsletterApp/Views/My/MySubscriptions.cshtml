@@ -2,6 +2,10 @@
     ViewData["Title"] = "내 구독";
 }
 <h1 class="page-title">내 구독</h1>
+<form id="my-subscriptions-search" class="d-flex gap-2 mb-3" role="search">
+    <input type="search" name="keyword" class="form-control search-input" placeholder="종류 검색" maxlength="50" aria-label="검색어">
+    <button type="submit" class="btn btn-outline-secondary">검색</button>
+</form>
 <div id="my-subscriptions-alert" hidden></div>
 <div id="my-subscriptions-list"></div>
 @section Scripts {

@@ -4,12 +4,13 @@
   const pagination = document.getElementById('users-pagination');
   const alertBox = document.getElementById('users-alert');
   let currentPage = 1;
+  let keyword = '';
 
   async function load(page) {
     currentPage = page;
     App.renderLoading(list);
     pagination.replaceChildren();
-    const result = await App.api('GET', `/api/admin/users?page=${page}`);
+    const result = await App.api('GET', `/api/admin/users?page=${page}${App.keywordQuery(keyword, '&')}`);
     if (!result.ok) {
       App.renderLoadError(list, '목록을 불러오지 못했습니다.', () => load(currentPage));
       return;
@@ -29,7 +30,7 @@
     head.append(headRow);
     const body = App.el('tbody');
     if (data.items.length === 0) {
-      body.append(App.emptyRow(6, '회원이 없습니다.'));
+      body.append(App.emptyRow(6, keyword ? App.SEARCH_EMPTY : '회원이 없습니다.'));
     }
     data.items.forEach((user) => {
       const row = App.el('tr');
@@ -75,6 +76,11 @@
     App.showAlert(alertBox, 'success', isSuspended ? '정지했습니다.' : '정지를 풀었습니다.', 5000);
     load(currentPage);
   }
+
+  App.bindSearch(document.getElementById('users-search'), (value) => {
+    keyword = value;
+    load(1);
+  });
 
   load(1);
 })();

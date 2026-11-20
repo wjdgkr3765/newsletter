@@ -12,11 +12,20 @@ public sealed class SubscriptionService(AppDbContext db, IUnsubscribeTokenServic
 {
     public const int AdminPageSize = 10;
 
-    public async Task<ServiceResult<ItemsResponse<MySubscriptionItem>>> GetMineAsync(long userId)
+    public async Task<ServiceResult<ItemsResponse<MySubscriptionItem>>> GetMineAsync(long userId, string? keyword = null)
     {
+        if (!InputRules.TryNormalizeKeyword(keyword, out string search))
+        {
+            return ServiceResult<ItemsResponse<MySubscriptionItem>>.Fail(ErrorCodes.InvalidInput);
+        }
         List<long> subscribed = await db.Subscriptions.Where(s => s.UserId == userId)
             .Select(s => s.GubunId).ToListAsync();
-        var gubuns = await db.Gubuns.AsNoTracking().Include(g => g.Config).OrderBy(g => g.Name).ToListAsync();
+        IQueryable<Gubun> query = db.Gubuns.AsNoTracking().Include(g => g.Config);
+        if (search.Length > 0)
+        {
+            query = query.Where(g => g.Name.Contains(search));
+        }
+        var gubuns = await query.OrderBy(g => g.Name).ToListAsync();
         List<MySubscriptionItem> items = gubuns.Select(g => new MySubscriptionItem(
             g.Id,
             g.Name,
@@ -41,9 +50,10 @@ public sealed class SubscriptionService(AppDbContext db, IUnsubscribeTokenServic
     }
 
     // 정지 회원을 뺀 모든 회원. 이름 → 아이디 오름차순, 10명씩.
-    public async Task<ServiceResult<PageResult<AdminSubscriptionItem>>> GetForAdminAsync(long? gubunId, int page)
+    public async Task<ServiceResult<PageResult<AdminSubscriptionItem>>> GetForAdminAsync(
+        long? gubunId, int page, string? keyword = null)
     {
-        if (gubunId is <= 0)
+        if (gubunId is <= 0 || !InputRules.TryNormalizeKeyword(keyword, out string search))
         {
             return ServiceResult<PageResult<AdminSubscriptionItem>>.Fail(ErrorCodes.InvalidInput);
         }
@@ -52,6 +62,10 @@ public sealed class SubscriptionService(AppDbContext db, IUnsubscribeTokenServic
             return ServiceResult<PageResult<AdminSubscriptionItem>>.Fail(ErrorCodes.NotFound);
         }
         IQueryable<User> users = db.Users.AsNoTracking().Where(u => !u.IsSuspended);
+        if (search.Length > 0)
+        {
+            users = users.Where(u => u.Name.Contains(search) || u.Email.Contains(search));
+        }
         int totalCount = await users.CountAsync();
         if (!PageResult<AdminSubscriptionItem>.IsValidPage(page, totalCount, AdminPageSize))
         {

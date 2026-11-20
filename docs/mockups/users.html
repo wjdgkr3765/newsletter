@@ -14,6 +14,10 @@
     <main class="app-main">
       <div class="app-content">
         <h1 class="page-title">회원 관리</h1>
+        <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+          <input type="search" class="form-control search-input" placeholder="아이디·이름 검색" maxlength="50">
+          <button type="submit" class="btn btn-outline-secondary">검색</button>
+        </form>
 
         <!-- 상태: 목록 있음 -->
         <section data-state="목록 있음">
@@ -152,6 +156,18 @@
             </thead>
             <tbody>
               <tr><td colspan="6" class="text-center text-secondary py-4">회원이 없습니다.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 검색 결과 없음 -->
+        <section data-state="검색 결과 없음">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>아이디</th><th>이름</th><th>권한</th><th>상태</th><th>가입일</th><th>관리</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" class="text-center text-secondary py-4">검색 결과가 없습니다.</td></tr>
             </tbody>
           </table>
         </section>

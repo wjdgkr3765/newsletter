@@ -2,10 +2,11 @@
 (() => {
   const list = document.getElementById('my-subscriptions-list');
   const alertBox = document.getElementById('my-subscriptions-alert');
+  let keyword = '';
 
   async function load() {
     App.renderLoading(list);
-    const result = await App.api('GET', '/api/me/subscriptions');
+    const result = await App.api('GET', `/api/me/subscriptions${App.keywordQuery(keyword, '?')}`);
     if (!result.ok) {
       App.renderLoadError(list, '목록을 불러오지 못했습니다.', load);
       return;
@@ -21,7 +22,7 @@
     head.append(headRow);
     const body = App.el('tbody');
     if (items.length === 0) {
-      body.append(App.emptyRow(3, '등록된 뉴스레터 종류가 없습니다.'));
+      body.append(App.emptyRow(3, keyword ? App.SEARCH_EMPTY : '등록된 뉴스레터 종류가 없습니다.'));
     }
     items.forEach((item) => {
       const row = App.el('tr');
@@ -56,6 +57,11 @@
       App.showAlert(alertBox, 'danger', result.error.message, 5000);
     }
   }
+
+  App.bindSearch(document.getElementById('my-subscriptions-search'), (value) => {
+    keyword = value;
+    load();
+  });
 
   load();
 })();

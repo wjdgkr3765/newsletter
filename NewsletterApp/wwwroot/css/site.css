@@ -85,6 +85,11 @@
   width: 240px;
 }
 
+/* 목록 검색창 (D-012) */
+.search-input {
+  width: 320px;
+}
+
 .check-col {
   width: 80px;
 }

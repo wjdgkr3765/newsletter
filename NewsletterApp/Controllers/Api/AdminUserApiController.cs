@@ -11,8 +11,8 @@ namespace NewsletterApp.Controllers.Api;
 public sealed class AdminUserApiController(AdminUserService adminUserService) : ApiControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetPage([FromQuery] int page = 1) =>
-        ToResult(await adminUserService.GetPageAsync(CurrentUserId, page));
+    public async Task<IActionResult> GetPage([FromQuery] int page = 1, [FromQuery] string? keyword = null) =>
+        ToResult(await adminUserService.GetPageAsync(CurrentUserId, page, keyword));
 
     [HttpPost("{id:long}/suspension")]
     public async Task<IActionResult> SetSuspension(long id, SuspensionRequest request) =>

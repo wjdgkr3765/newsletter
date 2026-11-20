@@ -55,8 +55,8 @@ public sealed class MeApiController(MeService meService, SubscriptionService sub
     }
 
     [HttpGet("subscriptions")]
-    public async Task<IActionResult> GetSubscriptions() =>
-        ToResult(await subscriptionService.GetMineAsync(CurrentUserId));
+    public async Task<IActionResult> GetSubscriptions([FromQuery] string? keyword = null) =>
+        ToResult(await subscriptionService.GetMineAsync(CurrentUserId, keyword));
 
     [HttpPost("subscriptions")]
     public async Task<IActionResult> SetSubscription(MySubscriptionRequest request) =>

@@ -24,6 +24,10 @@
               <option>유가 정보</option>
             </select>
           </div>
+          <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+            <input type="search" class="form-control search-input" placeholder="이름·이메일 검색" maxlength="50">
+            <button type="submit" class="btn btn-outline-secondary">검색</button>
+          </form>
           <table class="table align-middle">
             <thead class="table-light">
               <tr><th>이름</th><th>이메일</th></tr>
@@ -54,6 +58,10 @@
               <option selected>유가 정보</option>
             </select>
           </div>
+          <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+            <input type="search" class="form-control search-input" placeholder="이름·이메일 검색" maxlength="50">
+            <button type="submit" class="btn btn-outline-secondary">검색</button>
+          </form>
           <table class="table align-middle">
             <thead class="table-light">
               <tr><th class="check-col">구독</th><th>이름</th><th>이메일</th></tr>
@@ -84,6 +92,10 @@
               <option selected>유가 정보</option>
             </select>
           </div>
+          <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+            <input type="search" class="form-control search-input" placeholder="이름·이메일 검색" maxlength="50">
+            <button type="submit" class="btn btn-outline-secondary">검색</button>
+          </form>
           <table class="table align-middle">
             <thead class="table-light">
               <tr><th class="check-col">구독</th><th>이름</th><th>이메일</th></tr>
@@ -104,6 +116,10 @@
               <option selected>전체</option>
             </select>
           </div>
+          <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+            <input type="search" class="form-control search-input" placeholder="이름·이메일 검색" maxlength="50">
+            <button type="submit" class="btn btn-outline-secondary">검색</button>
+          </form>
           <table class="table align-middle">
             <thead class="table-light">
               <tr><th>이름</th><th>이메일</th></tr>
@@ -120,6 +136,10 @@
             <h1 class="page-title mb-0">구독</h1>
             <select class="form-select gubun-dropdown"><option selected>전체</option></select>
           </div>
+          <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+            <input type="search" class="form-control search-input" placeholder="이름·이메일 검색" maxlength="50">
+            <button type="submit" class="btn btn-outline-secondary">검색</button>
+          </form>
           <div class="text-center text-secondary py-5">
             <div class="spinner-border mb-2"></div>
             <div>불러오는 중</div>
@@ -132,6 +152,10 @@
             <h1 class="page-title mb-0">구독</h1>
             <select class="form-select gubun-dropdown"><option selected>전체</option></select>
           </div>
+          <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+            <input type="search" class="form-control search-input" placeholder="이름·이메일 검색" maxlength="50">
+            <button type="submit" class="btn btn-outline-secondary">검색</button>
+          </form>
           <table class="table align-middle">
             <thead class="table-light">
               <tr><th>이름</th><th>이메일</th></tr>
@@ -142,12 +166,36 @@
           </table>
         </section>
 
+        <!-- 상태: 검색 결과 없음 -->
+        <section data-state="검색 결과 없음">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="page-title mb-0">구독</h1>
+            <select class="form-select gubun-dropdown"><option selected>전체</option></select>
+          </div>
+          <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+            <input type="search" class="form-control search-input" placeholder="이름·이메일 검색" maxlength="50" value="없는이름">
+            <button type="submit" class="btn btn-outline-secondary">검색</button>
+          </form>
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>이름</th><th>이메일</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="2" class="text-center text-secondary py-4">검색 결과가 없습니다.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
         <!-- 상태: 오류 -->
         <section data-state="오류">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="page-title mb-0">구독</h1>
             <select class="form-select gubun-dropdown"><option selected>유가 정보</option></select>
           </div>
+          <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+            <input type="search" class="form-control search-input" placeholder="이름·이메일 검색" maxlength="50">
+            <button type="submit" class="btn btn-outline-secondary">검색</button>
+          </form>
           <div class="alert alert-danger d-flex justify-content-between align-items-center">
             <span>목록을 불러오지 못했습니다.</span>
             <button type="button" class="btn btn-sm btn-outline-danger">다시 시도</button>

@@ -228,6 +228,19 @@ const App = (() => {
     };
   }
 
+  // 목록 검색창 (D-012): "검색" 버튼이나 Enter로 앞뒤 공백을 뺀 검색어를 넘긴다.
+  function bindSearch(form, onSearch) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      onSearch(form.elements.keyword.value.trim());
+    });
+  }
+
+  // 검색어 쿼리 문자열. 빈 검색어면 붙이지 않는다.
+  function keywordQuery(keyword, separator) {
+    return keyword ? `${separator}keyword=${encodeURIComponent(keyword)}` : '';
+  }
+
   // 메뉴의 로그아웃 버튼
   document.addEventListener('click', async (event) => {
     const button = event.target.closest('[data-logout]');
@@ -258,6 +271,9 @@ const App = (() => {
     fillTimeSelects,
     setTimeSelects,
     readTimeSelects,
-    debounce
+    debounce,
+    SEARCH_EMPTY: '검색 결과가 없습니다.',
+    bindSearch,
+    keywordQuery
   };
 })();

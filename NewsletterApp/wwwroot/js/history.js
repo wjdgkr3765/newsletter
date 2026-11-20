@@ -9,12 +9,13 @@
   const modalBody = document.getElementById('newsletter-modal-body');
   const modal = new bootstrap.Modal(modalElement);
   let currentPage = 1;
+  let keyword = '';
 
   async function load(page) {
     currentPage = page;
     App.renderLoading(list);
     pagination.replaceChildren();
-    const result = await App.api('GET', `/api/newsletters?page=${page}`);
+    const result = await App.api('GET', `/api/newsletters?page=${page}${App.keywordQuery(keyword, '&')}`);
     if (!result.ok) {
       App.renderLoadError(list, '목록을 불러오지 못했습니다.', () => load(currentPage));
       return;
@@ -31,7 +32,8 @@
     head.append(headRow);
     const body = App.el('tbody');
     if (data.items.length === 0) {
-      body.append(App.emptyRow(columns.length, data.isAdmin ? '발송된 뉴스레터가 없습니다.' : '받은 뉴스레터가 없습니다.'));
+      const emptyText = data.isAdmin ? '발송된 뉴스레터가 없습니다.' : '받은 뉴스레터가 없습니다.';
+      body.append(App.emptyRow(columns.length, keyword ? App.SEARCH_EMPTY : emptyText));
     }
     data.items.forEach((item) => {
       const row = App.el('tr');
@@ -79,6 +81,11 @@
     frame.srcdoc = detail.content;
     modalBody.replaceChildren(frame);
   }
+
+  App.bindSearch(document.getElementById('history-search'), (value) => {
+    keyword = value;
+    load(1);
+  });
 
   load(1);
 })();

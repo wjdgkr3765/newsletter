@@ -35,6 +35,20 @@ public sealed class WeatherContentBuilderTests
         Assert.Equal(baseTime, time);
     }
 
+    // ---------- 캐시 보관 시간 (경계값: 00:00, 23:59:59) ----------
+
+    [Theory]
+    [InlineData(0, 0, 0, 86400)]
+    [InlineData(0, 0, 1, 86399)]
+    [InlineData(2, 10, 0, 78600)]
+    [InlineData(16, 0, 0, 28800)]
+    [InlineData(23, 59, 59, 1)]
+    public void TimeToDayEnd_UntilNextKstMidnight(int hour, int minute, int second, int expectedSeconds)
+    {
+        TimeSpan left = WeatherForecastClient.TimeToDayEnd(new DateTime(2026, 11, 12, hour, minute, second));
+        Assert.Equal(TimeSpan.FromSeconds(expectedSeconds), left);
+    }
+
     // ---------- 값 꺼내기 ----------
 
     [Fact]

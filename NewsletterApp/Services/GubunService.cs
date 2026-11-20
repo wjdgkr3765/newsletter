@@ -10,9 +10,18 @@ namespace NewsletterApp.Services;
 // 종류 목록·추가, 발송 설정 저장 (docs/api.md 6.7)
 public sealed class GubunService(AppDbContext db)
 {
-    public async Task<ServiceResult<ItemsResponse<GubunItem>>> GetAllAsync()
+    public async Task<ServiceResult<ItemsResponse<GubunItem>>> GetAllAsync(string? keyword = null)
     {
-        var gubuns = await db.Gubuns.AsNoTracking().Include(g => g.Config).OrderBy(g => g.Name).ToListAsync();
+        if (!InputRules.TryNormalizeKeyword(keyword, out string search))
+        {
+            return ServiceResult<ItemsResponse<GubunItem>>.Fail(ErrorCodes.InvalidInput);
+        }
+        IQueryable<Gubun> query = db.Gubuns.AsNoTracking().Include(g => g.Config);
+        if (search.Length > 0)
+        {
+            query = query.Where(g => g.Name.Contains(search));
+        }
+        var gubuns = await query.OrderBy(g => g.Name).ToListAsync();
         return ServiceResult<ItemsResponse<GubunItem>>.Ok(new ItemsResponse<GubunItem>(gubuns.Select(ToItem).ToList()));
     }
 

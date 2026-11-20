@@ -12,7 +12,8 @@ public sealed class AdminGubunApiController(GubunService gubunService, Newslette
     : ApiControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll() => ToResult(await gubunService.GetAllAsync());
+    public async Task<IActionResult> GetAll([FromQuery] string? keyword = null) =>
+        ToResult(await gubunService.GetAllAsync(keyword));
 
     [HttpPost]
     public async Task<IActionResult> Create(GubunCreateRequest request) =>

@@ -12,10 +12,11 @@
   const submit = $('gubun-add-submit');
   const addAlert = $('gubun-add-alert');
   const DEFAULT_SEND_TIME = '16:00';
+  let keyword = '';
 
   async function load() {
     App.renderLoading(list);
-    const result = await App.api('GET', '/api/admin/gubuns');
+    const result = await App.api('GET', `/api/admin/gubuns${App.keywordQuery(keyword, '?')}`);
     if (!result.ok) {
       App.renderLoadError(list, '목록을 불러오지 못했습니다.', load);
       return;
@@ -31,7 +32,7 @@
     head.append(headRow);
     const body = App.el('tbody');
     if (items.length === 0) {
-      body.append(App.emptyRow(3, "등록된 종류가 없습니다. '종류 추가'로 추가해 주세요."));
+      body.append(App.emptyRow(3, keyword ? App.SEARCH_EMPTY : "등록된 종류가 없습니다. '종류 추가'로 추가해 주세요."));
     }
     items.forEach((gubun) => {
       const row = App.el('tr', 'clickable-row');
@@ -93,6 +94,11 @@
     }
     modal.hide();
     App.showAlert(alertBox, 'success', '종류를 추가했습니다.', 5000);
+    load();
+  });
+
+  App.bindSearch($('gubuns-search'), (value) => {
+    keyword = value;
     load();
   });
 

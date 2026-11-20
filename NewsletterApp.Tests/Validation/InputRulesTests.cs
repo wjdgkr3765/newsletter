@@ -83,6 +83,25 @@ public sealed class InputRulesTests
     public void TryParseSendTime(string? value, bool expected) =>
         Assert.Equal(expected, InputRules.TryParseSendTime(value, out _));
 
+    // 검색어: 앞뒤 공백을 뺀 뒤 0~50자 (D-012)
+    [Theory]
+    [InlineData(null, true, "")]
+    [InlineData("", true, "")]
+    [InlineData("   ", true, "")]
+    [InlineData(" 서울 ", true, "서울")]
+    public void TryNormalizeKeyword_Trims(string? value, bool expected, string keyword)
+    {
+        Assert.Equal(expected, InputRules.TryNormalizeKeyword(value, out string result));
+        Assert.Equal(keyword, result);
+    }
+
+    [Theory]
+    [InlineData(49, true)]
+    [InlineData(50, true)]    // 경계
+    [InlineData(51, false)]   // 경계 위
+    public void TryNormalizeKeyword_Length(int length, bool expected) =>
+        Assert.Equal(expected, InputRules.TryNormalizeKeyword(" " + new string('가', length) + " ", out _));
+
     [Fact]
     public void TryParseSendTime_Value()
     {

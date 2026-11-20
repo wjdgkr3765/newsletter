@@ -135,3 +135,8 @@ body {
 .mock-modal .modal-dialog {
   margin: 0 auto;
 }
+
+/* 목록 검색창 (D-012) */
+.search-input {
+  width: 320px;
+}

@@ -133,6 +133,7 @@ API의 기준 문서다. API를 추가하거나 바꾸는 작업에서는 이 �
 | id, gubunId, userId | number | 1 이상 정수 (BIGINT) |
 | page | number | 1 이상 정수 |
 | token | string | 1~1000자 |
+| keyword | string | 앞뒤 공백을 뺀 뒤 0~50자. 빈 값·없음 = 검색하지 않음. 50자를 넘으면 INVALID_INPUT (D-012) |
 
 ### 6.1 인증 (비회원)
 
@@ -354,7 +355,10 @@ API의 기준 문서다. API를 추가하거나 바꾸는 작업에서는 이 �
 #### GET /api/me/subscriptions
 - **설명**: 모든 종류(종류 이름 오름차순)와 발송 설정, 내 구독 여부
 - **권한**: 로그인 필요, 자기 데이터
-- **요청**: 없음
+- **요청(쿼리)**:
+  | 필드 | 타입 | 필수 | 설명 |
+  |---|---|---|---|
+  | keyword | string | X | 검색어. 앞뒤 공백을 빼고 0~50자. 빈 값이면 전체. 종류 이름 중 하나라도 검색어를 포함하면 나온다(부분 일치, 영문 대소문자 구분 없음, `%`·`_`도 글자 그대로) |
 - **응답 data**:
   | 필드 | 타입 | 설명 |
   |---|---|---|
@@ -363,7 +367,7 @@ API의 기준 문서다. API를 추가하거나 바꾸는 작업에서는 이 �
   | items[].sendTime | string \| null | 발송 시간 `"HH:mm"`. 발송 설정이 없으면 null |
   | items[].isUse | boolean \| null | 사용 여부. 발송 설정이 없으면 null |
   | items[].isSubscribed | boolean | 내 구독 여부 |
-- **오류**: UNAUTHORIZED
+- **오류**: UNAUTHORIZED, INVALID_INPUT
 - **사용 테이블**: gubuns, newsletter_configs, subscriptions
 
 #### POST /api/me/subscriptions
@@ -390,6 +394,7 @@ API의 기준 문서다. API를 추가하거나 바꾸는 작업에서는 이 �
   | 필드 | 타입 | 필수 | 설명 |
   |---|---|---|---|
   | page | number | X | 기본 1 |
+  | keyword | string | X | 검색어. 앞뒤 공백을 빼고 0~50자. 빈 값이면 전체. 제목, 종류 이름 중 하나라도 검색어를 포함하면 나온다(부분 일치, 영문 대소문자 구분 없음, `%`·`_`도 글자 그대로) |
 - **응답 data**: 목록 응답 형식 (pageSize 30)
   | 필드 | 타입 | 설명 |
   |---|---|---|
@@ -440,7 +445,11 @@ API의 기준 문서다. API를 추가하거나 바꾸는 작업에서는 이 �
 #### GET /api/admin/users
 - **설명**: 회원 목록. 이름 오름차순(같으면 아이디 오름차순), 10명씩. 정지 회원 포함.
 - **권한**: 관리자
-- **요청(쿼리)**: page (number, X, 기본 1)
+- **요청(쿼리)**:
+  | 필드 | 타입 | 필수 | 설명 |
+  |---|---|---|---|
+  | page | number | X | 기본 1 |
+  | keyword | string | X | 검색어. 앞뒤 공백을 빼고 0~50자. 빈 값이면 전체. 아이디, 이름 중 하나라도 검색어를 포함하면 나온다(부분 일치, 영문 대소문자 구분 없음, `%`·`_`도 글자 그대로) |
 - **응답 data**: 목록 응답 형식 (pageSize 10)
   | 필드 | 타입 | 설명 |
   |---|---|---|
@@ -479,6 +488,7 @@ API의 기준 문서다. API를 추가하거나 바꾸는 작업에서는 이 �
   |---|---|---|---|
   | gubunId | number | X | 없으면 '전체' |
   | page | number | X | 기본 1 |
+  | keyword | string | X | 검색어. 앞뒤 공백을 빼고 0~50자. 빈 값이면 전체. 이름, 이메일 중 하나라도 검색어를 포함하면 나온다(부분 일치, 영문 대소문자 구분 없음, `%`·`_`도 글자 그대로) |
 - **응답 data**: 목록 응답 형식 (pageSize 10)
   | 필드 | 타입 | 설명 |
   |---|---|---|
@@ -508,9 +518,12 @@ API의 기준 문서다. API를 추가하거나 바꾸는 작업에서는 이 �
 ### 6.7 뉴스레터 설정 (관리자)
 
 #### GET /api/admin/gubuns
-- **설명**: 모든 종류와 발송 설정. 종류 이름 오름차순. 페이지를 나누지 않는다. 구독 관리 화면의 드롭다운에도 쓴다.
+- **설명**: 모든 종류와 발송 설정. 종류 이름 오름차순. 페이지를 나누지 않는다. 구독 관리 화면의 드롭다운에도 쓴다(드롭다운은 keyword 없이 부른다).
 - **권한**: 관리자
-- **요청**: 없음
+- **요청(쿼리)**:
+  | 필드 | 타입 | 필수 | 설명 |
+  |---|---|---|---|
+  | keyword | string | X | 검색어. 앞뒤 공백을 빼고 0~50자. 빈 값이면 전체. 종류 이름 중 하나라도 검색어를 포함하면 나온다(부분 일치, 영문 대소문자 구분 없음, `%`·`_`도 글자 그대로) |
 - **응답 data**:
   | 필드 | 타입 | 설명 |
   |---|---|---|
@@ -518,7 +531,7 @@ API의 기준 문서다. API를 추가하거나 바꾸는 작업에서는 이 �
   | items[].name | string | 종류 이름 |
   | items[].sendTime | string \| null | 발송 시간. 설정 없으면 null ("설정 없음") |
   | items[].isUse | boolean \| null | 사용 여부. 설정 없으면 null |
-- **오류**: UNAUTHORIZED, FORBIDDEN
+- **오류**: UNAUTHORIZED, FORBIDDEN, INVALID_INPUT
 - **사용 테이블**: gubuns, newsletter_configs
 
 #### POST /api/admin/gubuns
@@ -652,7 +665,7 @@ API의 기준 문서다. API를 추가하거나 바꾸는 작업에서는 이 �
 
 #### 예보 받기 (WeatherForecastClient, 지역 하나)
 1. 예보 발표를 고른다. 지금 한국 시각이 02:10 이후면 `base_date` = 오늘, `base_time` = `0200`. 그 전이면 `base_date` = 어제, `base_time` = `2300`.
-2. 같은 발표·같은 격자의 결과가 앱 메모리(IMemoryCache)에 있으면 그것을 쓴다. 성공한 결과만 1시간 보관한다.
+2. 같은 발표·같은 격자의 결과가 앱 메모리(IMemoryCache)에 있으면 그것을 쓴다. 성공한 결과만 그날 끝(한국 시간 다음 날 00:00)까지 보관한다. (D-011)
 3. `GET {Weather:BaseUrl}?serviceKey={인증키 URL 인코딩}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=YYYYMMDD&base_time=HHmm&nx={Nx}&ny={Ny}`. 타임아웃 10초.
 4. 응답 `resultCode`가 `00`이 아니면 실패. (`03` 데이터없음, `22` 요청제한횟수 초과, `30` 등록되지 않은 서비스키 등. 로그에는 코드만 남긴다)
 5. 항목(`fcstDate`, `fcstTime`, `category`, `fcstValue`) 중 `fcstDate`가 오늘(한국 날짜)인 것만 쓴다.

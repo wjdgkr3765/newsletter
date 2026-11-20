@@ -17,6 +17,10 @@
           <h1 class="page-title mb-0">뉴스레터 설정</h1>
           <button type="button" class="btn btn-primary">종류 추가</button>
         </div>
+        <form class="d-flex gap-2 mb-3" role="search" onsubmit="return false">
+          <input type="search" class="form-control search-input" placeholder="종류 검색" maxlength="50">
+          <button type="submit" class="btn btn-outline-secondary">검색</button>
+        </form>
 
         <!-- 상태: 목록 있음 -->
         <section data-state="목록 있음">
@@ -177,6 +181,18 @@
             </thead>
             <tbody>
               <tr><td colspan="3" class="text-center text-secondary py-4">등록된 종류가 없습니다. '종류 추가'로 추가해 주세요.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 상태: 검색 결과 없음 -->
+        <section data-state="검색 결과 없음">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr><th>종류</th><th>발송 시간</th><th>사용 여부</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" class="text-center text-secondary py-4">검색 결과가 없습니다.</td></tr>
             </tbody>
           </table>
         </section>

@@ -8,6 +8,7 @@ public static partial class InputRules
     public const int MaxPasswordLength = 20;
     public const int MaxEmailLength = 50;
     public const int MaxTokenLength = 1000;
+    public const int MaxKeywordLength = 50;
 
     [GeneratedRegex("^[a-z0-9]{6,20}$")]
     private static partial Regex LoginIdRegex();
@@ -72,6 +73,13 @@ public static partial class InputRules
     public static bool IsCode(string? value) => value is not null && CodeRegex().IsMatch(value);
 
     public static bool IsToken(string? value) => !string.IsNullOrEmpty(value) && value.Length <= MaxTokenLength;
+
+    // 목록 검색어: 앞뒤 공백을 뺀 뒤 0~50자. 빈 값이면 검색하지 않는다. (D-012)
+    public static bool TryNormalizeKeyword(string? value, out string keyword)
+    {
+        keyword = Trim(value);
+        return keyword.Length <= MaxKeywordLength;
+    }
 
     public static bool TryParseSendTime(string? value, out TimeOnly time)
     {

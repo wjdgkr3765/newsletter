@@ -90,7 +90,7 @@
 |프로젝트/NewsletterApp/Services/Contents/ContentBuilderResolver.cs|종류 이름으로 본문 생성기를 고른다. 없으면 기본 본문 생성기|
 |프로젝트/NewsletterApp/Services/Contents/WeatherContentBuilder.cs|"날씨 정보(지역)" 본문 생성기 (지역마다 하나 등록. 지도 이미지 + 시간별 표 HTML)|
 |프로젝트/NewsletterApp/Services/Weather/WeatherRegion.cs|날씨 지역 설정 (`Weather:Regions`의 Name, Nx, Ny, Lat, Lon)과 지역 하루 예보 값|
-|프로젝트/NewsletterApp/Services/Weather/WeatherForecastClient.cs|기상청 단기예보 호출, 발표 고르기, 값 추출, 1시간 메모리 캐시|
+|프로젝트/NewsletterApp/Services/Weather/WeatherForecastClient.cs|기상청 단기예보 호출, 발표 고르기, 값 추출, 그날 끝까지 메모리 캐시|
 |프로젝트/NewsletterApp/Services/Weather/WeatherMapRenderer.cs|SkiaSharp로 전국 날씨 지도 PNG 그리기 (윤곽, 이름표, 날씨 아이콘, 기온)|
 |프로젝트/NewsletterApp/Resources/korea_outline.json|대한민국 윤곽 경도·위도 좌표 (Natural Earth 1:10m 국가 경계, 퍼블릭 도메인에서 뽑음)|
 |프로젝트/NewsletterApp/Views/_ViewImports.cshtml|Razor 공통 using, 태그 헬퍼|

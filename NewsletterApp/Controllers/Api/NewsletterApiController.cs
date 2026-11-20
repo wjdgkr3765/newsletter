@@ -8,8 +8,9 @@ namespace NewsletterApp.Controllers.Api;
 public sealed class NewsletterApiController(NewsletterQueryService queryService) : ApiControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetPage([FromQuery] int page = 1) =>
-        ToResult(await queryService.GetPageAsync(CurrentUserId, User.IsInRole(ClaimsPrincipalExtensions.AdminRole), page));
+    public async Task<IActionResult> GetPage([FromQuery] int page = 1, [FromQuery] string? keyword = null) =>
+        ToResult(await queryService.GetPageAsync(
+            CurrentUserId, User.IsInRole(ClaimsPrincipalExtensions.AdminRole), page, keyword));
 
     [HttpGet("{id:long}")]
     public async Task<IActionResult> Get(long id) =>

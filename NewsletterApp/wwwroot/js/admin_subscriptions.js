@@ -5,6 +5,7 @@
   const pagination = document.getElementById('admin-subscriptions-pagination');
   const alertBox = document.getElementById('admin-subscriptions-alert');
   let currentPage = 1;
+  let keyword = '';
 
   const selectedGubunId = () => (dropdown.value ? Number(dropdown.value) : null);
 
@@ -27,7 +28,7 @@
     pagination.replaceChildren();
     const gubunId = selectedGubunId();
     const query = gubunId === null ? `page=${page}` : `gubunId=${gubunId}&page=${page}`;
-    const result = await App.api('GET', `/api/admin/subscriptions?${query}`);
+    const result = await App.api('GET', `/api/admin/subscriptions?${query}${App.keywordQuery(keyword, '&')}`);
     if (!result.ok) {
       App.renderLoadError(list, '목록을 불러오지 못했습니다.', () => load(currentPage));
       return;
@@ -47,7 +48,7 @@
     head.append(headRow);
     const body = App.el('tbody');
     if (data.items.length === 0) {
-      body.append(App.emptyRow(hasCheck ? 3 : 2, '회원이 없습니다.'));
+      body.append(App.emptyRow(hasCheck ? 3 : 2, keyword ? App.SEARCH_EMPTY : '회원이 없습니다.'));
     }
     data.items.forEach((user) => {
       const row = App.el('tr');
@@ -81,6 +82,10 @@
   }
 
   dropdown.addEventListener('change', () => load(1));
+  App.bindSearch(document.getElementById('admin-subscriptions-search'), (value) => {
+    keyword = value;
+    load(1);
+  });
 
   (async () => {
     await loadGubuns();

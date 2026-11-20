@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using NewsletterApp.Data;
 using NewsletterApp.Data.Entities;
 using NewsletterApp.Models;
+using NewsletterApp.Models.Requests;
 using NewsletterApp.Models.Responses;
 
 namespace NewsletterApp.Services;
@@ -12,9 +13,18 @@ public sealed class NewsletterQueryService(AppDbContext db)
 {
     public const int PageSize = 30;
 
-    public async Task<ServiceResult<NewsletterPageResponse>> GetPageAsync(long userId, bool isAdmin, int page)
+    public async Task<ServiceResult<NewsletterPageResponse>> GetPageAsync(
+        long userId, bool isAdmin, int page, string? keyword = null)
     {
+        if (!InputRules.TryNormalizeKeyword(keyword, out string search))
+        {
+            return ServiceResult<NewsletterPageResponse>.Fail(ErrorCodes.InvalidInput);
+        }
         IQueryable<Newsletter> query = Visible(userId, isAdmin);
+        if (search.Length > 0)
+        {
+            query = query.Where(n => n.Title.Contains(search) || n.Gubun!.Name.Contains(search));
+        }
         int totalCount = await query.CountAsync();
         if (!PageResult<NewsletterListItem>.IsValidPage(page, totalCount, PageSize))
         {
