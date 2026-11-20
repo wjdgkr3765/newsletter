@@ -51,7 +51,7 @@
 | 페이지 버튼 | 페이지네이션 | 이전, 페이지 번호(최대 10개), 다음 | `page`, `totalPages` | 1페이지뿐이면 숨김 |
 | 본문 팝업 제목 | 텍스트 | `title` | `GET /api/newsletters/{id}` | |
 | 본문 팝업 정보 | 텍스트 | "{종류} · {발송 시각}" | 같은 응답 | |
-| 본문 팝업 본문 | iframe (`sandbox`, `srcdoc`) | `content` HTML | newsletters.content | 수신 거부 링크 없음, 높이 500px, 스크롤 |
+| 본문 팝업 본문 | iframe (`sandbox`, `srcdoc`) | `content` HTML | newsletters.content | 수신 거부 링크 없음, 높이 500px, 스크롤. "날씨 정보(지역)"는 본문 안의 지도 이미지(`data:` PNG, 가로 600px)도 보인다 |
 | 닫기 버튼 | 버튼 | "닫기" | 고정 | |
 
 ---

@@ -17,6 +17,10 @@
 |비밀번호 해시|BCrypt (BCrypt.Net-Next)|4.2.0 (work factor 11)|
 |메일 발송|Gmail SMTP (MailKit)|5.0.0|
 |자동 발송|ASP.NET Core BackgroundService| .NET 10 기본 포함|
+|날씨 데이터|기상청 단기예보 조회서비스 (공공데이터포털, `VilageFcstInfoService_2.0` 단기예보조회, JSON). 무료, 공공누리 제1유형(출처 표시), 일일 트래픽 10,000회|2.0|
+|외부 API 호출|HttpClient (`AddHttpClient`, 타임아웃 10초)| .NET 10 기본 포함|
+|날씨 지도 이미지|SkiaSharp로 PNG를 그린다. 글꼴은 Windows 기본 "맑은 고딕"(Malgun Gothic)|4.157.0|
+|지도 윤곽 데이터|Natural Earth 1:10m 국가 경계(퍼블릭 도메인)에서 대한민국 윤곽만 뽑아 `NewsletterApp/Resources/korea_outline.json`(경도·위도 좌표 목록)으로 둔다| |
 |인증 코드·로그인 실패 횟수 저장|ASP.NET Core IMemoryCache (앱 메모리)| .NET 10 기본 포함|
 |수신 거부 링크 토큰|ASP.NET Core Data Protection| .NET 10 기본 포함|
 |CSRF 방지|ASP.NET Core Antiforgery (요청 헤더 토큰)| .NET 10 기본 포함|
@@ -34,6 +38,9 @@
 | `ConnectionStrings:Default` | `ConnectionStrings__Default` | `NewsletterApp/.env` | SQL Server 접속 문자열 |
 | `Gmail:Address` | `Gmail__Address` | `NewsletterApp/.env` | 보내는 Gmail 주소 (보내는 사람 이메일) |
 | `Gmail:AppPassword` | `Gmail__AppPassword` | `NewsletterApp/.env` | Gmail 앱 비밀번호 |
+| `Weather:ServiceKey` | `Weather__ServiceKey` | `NewsletterApp/.env` | 공공데이터포털 인증키 (일반 인증키 Decoding 값. 요청할 때 URL 인코딩한다) |
+| `Weather:BaseUrl` | 없음 | appsettings.json | 단기예보조회 주소 `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst` |
+| `Weather:Regions` | 없음 | appsettings.json | 지역 17곳 목록. 지역마다 `Name`(종류 이름 괄호 안 지역 이름), `Nx`, `Ny`(기상청 격자), `Lat`, `Lon`(지도에 그릴 위치, 격자 엑셀의 위경도), `LabelDx`, `LabelDy`(이름표 왼쪽 위 모서리를 지역 점에서 옮길 px. 가까운 지역 이름표가 겹치지 않게). 값은 overview.md "종류별 본문: 날씨 정보" |
 | `App:BaseUrl` | 없음 | appsettings.json | 메일의 수신 거부 링크에 쓰는 사이트 주소 (`https://localhost:7105`) |
 | `Kestrel:Endpoints` | 없음 | appsettings.json | 앱이 여는 주소 `https://localhost:7105`, `http://localhost:5115`. 실행 방법(VS, dotnet run)과 관계없이 이 주소로 뜬다 |
 
@@ -51,6 +58,7 @@
 |BCrypt.Net-Next|4.2.0|비밀번호 해시|
 |DotNetEnv|3.2.0|`.env` 파일을 읽어 환경 변수로 등록|
 |MailKit|5.0.0|Gmail SMTP 발송|
+|SkiaSharp|4.157.0|날씨 지도 PNG 그리기 (MIT 라이선스). 설치할 때 `dotnet list package --vulnerable`로 확인한다|
 |xunit.v3|4.0.3|테스트|
 |xunit.runner.visualstudio|3.1.4|Visual Studio 테스트 실행|
 |Microsoft.NET.Test.Sdk|17.14.1|테스트 실행|

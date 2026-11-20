@@ -31,10 +31,11 @@
 |프로젝트/docs/mockups/|화면 시안 HTML. 서버 없이 바로 열어 보는 파일 (loop.md 2번 와이어프레임). 화면마다 `{화면파일명 snake_case}.html` (11개)|
 |프로젝트/docs/mockups/mockup.css|시안 공통 스타일 (실제 화면 site.css가 될 레이아웃 값 + 시안 전용 상태 막대·팝업 표시)|
 |프로젝트/docs/mockups/mockup.js|시안 공통 스크립트 (상태 전환 막대, 권한별 왼쪽 메뉴 그리기). 실제 기능 없음|
-|프로젝트/.claude/launch.json|시안·화면 확인용 실행 설정 (Claude 미리보기 전용, 작업 PC의 임시 폴더 스크립트를 가리킨다)|
+|프로젝트/docs/mockups/weather_mail.html|"날씨 정보" 메일 본문 시안 (화면이 아니라 메일 본문)|
+|프로젝트/.claude/launch.json|시안·화면 확인용 실행 설정 (Claude 미리보기 전용). `mockups`는 python `http.server`로 프로젝트 폴더를 8765 포트에 띄우고(시안 확인), `app-check`는 이전 작업 PC의 임시 폴더 스크립트를 가리키고, `app`은 `dotnet run`으로 앱을 띄운다|
 |프로젝트/NewsletterApp/|ASP.NET Core MVC 웹 프로젝트 (.NET 10)|
 |프로젝트/NewsletterApp/NewsletterApp.csproj|웹 프로젝트 파일|
-|프로젝트/NewsletterApp/.env|비밀 정보 (DB 접속 문자열, Gmail 주소, Gmail 앱 비밀번호). 사용자가 직접 만들고 값을 넣는다. git 제외|
+|프로젝트/NewsletterApp/.env|비밀 정보 (DB 접속 문자열, Gmail 주소, Gmail 앱 비밀번호, 기상청 API 인증키). 사용자가 직접 만들고 값을 넣는다. git 제외|
 |프로젝트/NewsletterApp/.env.example|`.env`에 필요한 변수 이름만 적은 파일 (값 비움). git에 올린다|
 |프로젝트/NewsletterApp/Program.cs|서비스 등록(DB, 쿠키 인증, Antiforgery, Data Protection, IMemoryCache, MailKit, BackgroundService)과 미들웨어 설정|
 |프로젝트/NewsletterApp/appsettings.json|비밀이 아닌 설정 (`App:BaseUrl`, 로그 수준). 비밀 정보는 넣지 않는다|
@@ -81,12 +82,17 @@
 |프로젝트/NewsletterApp/Services/NewsletterQueryService.cs|수신 내역 목록, 본문 조회 (권한별)|
 |프로젝트/NewsletterApp/Services/NewsletterSendService.cs|뉴스레터 만들어 보내기, 다시 보내기, 종류별 발송 잠금 (api.md 7번)|
 |프로젝트/NewsletterApp/Services/NewsletterSchedulerService.cs|자동 발송 BackgroundService (매 분 확인)|
-|프로젝트/NewsletterApp/Services/MailService.cs|MailKit Gmail SMTP 발송 (뉴스레터, 인증 코드)|
+|프로젝트/NewsletterApp/Services/MailService.cs|MailKit Gmail SMTP 발송 (뉴스레터, 인증 코드). 본문의 `data:` PNG 이미지는 메일 안 첨부 이미지(cid)로 바꿔 보낸다|
 |프로젝트/NewsletterApp/Services/UnsubscribeTokenService.cs|수신 거부 토큰 만들기·풀기 (Data Protection)|
 |프로젝트/NewsletterApp/Services/KstClock.cs|현재 UTC·한국 시각·한국 날짜 (테스트에서 바꿔 끼울 수 있게 인터페이스 `IClock`과 함께)|
 |프로젝트/NewsletterApp/Services/Contents/INewsletterContentBuilder.cs|종류별 본문 생성기 인터페이스 (외부 데이터 실패 시 실패 결과 반환)|
 |프로젝트/NewsletterApp/Services/Contents/DefaultContentBuilder.cs|기본 본문 생성기 (종류 이름과 날짜)|
 |프로젝트/NewsletterApp/Services/Contents/ContentBuilderResolver.cs|종류 이름으로 본문 생성기를 고른다. 없으면 기본 본문 생성기|
+|프로젝트/NewsletterApp/Services/Contents/WeatherContentBuilder.cs|"날씨 정보(지역)" 본문 생성기 (지역마다 하나 등록. 지도 이미지 + 시간별 표 HTML)|
+|프로젝트/NewsletterApp/Services/Weather/WeatherRegion.cs|날씨 지역 설정 (`Weather:Regions`의 Name, Nx, Ny, Lat, Lon)과 지역 하루 예보 값|
+|프로젝트/NewsletterApp/Services/Weather/WeatherForecastClient.cs|기상청 단기예보 호출, 발표 고르기, 값 추출, 1시간 메모리 캐시|
+|프로젝트/NewsletterApp/Services/Weather/WeatherMapRenderer.cs|SkiaSharp로 전국 날씨 지도 PNG 그리기 (윤곽, 이름표, 날씨 아이콘, 기온)|
+|프로젝트/NewsletterApp/Resources/korea_outline.json|대한민국 윤곽 경도·위도 좌표 (Natural Earth 1:10m 국가 경계, 퍼블릭 도메인에서 뽑음)|
 |프로젝트/NewsletterApp/Views/_ViewImports.cshtml|Razor 공통 using, 태그 헬퍼|
 |프로젝트/NewsletterApp/Views/_ViewStart.cshtml|기본 레이아웃 지정|
 |프로젝트/NewsletterApp/Views/Shared/_Layout.cshtml|로그인 후 공통 레이아웃: 왼쪽 메뉴(권한별), 본문 최대 너비 960px, CSRF 메타 태그|
@@ -137,6 +143,7 @@
 |프로젝트/NewsletterApp.Tests/Services/AccountServiceTests.cs|회원가입, 로그인, 비밀번호 찾기, 내 정보, 탈퇴 테스트|
 |프로젝트/NewsletterApp.Tests/Services/NewsletterServiceTests.cs|발송, 다시 보내기, 수신 내역, 구독, 수신 거부, 종류 설정, 회원 관리 테스트|
 |프로젝트/NewsletterApp.Tests/Validation/InputRulesTests.cs|입력값 규칙 동등 분할·경계값 테스트|
+|프로젝트/NewsletterApp.Tests/Services/WeatherContentBuilderTests.cs|날씨 테스트 (가짜 HTTP 응답: 성공, 오류, 타임아웃, 값 누락, 코드 변환, 발표 고르기, 캐시, 다른 지역 실패 시 "-", 지도 PNG 생성·크기, 메일 data 이미지 → cid 변환)|
 
 ### 변경 불가능
 - 프로젝트/docs/coding_rule.md

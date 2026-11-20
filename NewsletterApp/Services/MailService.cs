@@ -58,6 +58,22 @@ public sealed class MailService(IConfiguration configuration, ILogger<MailServic
         return new MailBatch(client, address, logger);
     }
 
+    // 본문의 data: PNG 이미지를 메일 안 첨부 이미지로 바꾸고 src를 cid:로 바꾼다. (Gmail은 data: 이미지를 보여주지 않음)
+    internal static string EmbedDataImages(string html, AttachmentCollection linkedResources)
+    {
+        int index = 0;
+        return DataImagePattern.Replace(html, match =>
+        {
+            byte[] bytes = Convert.FromBase64String(match.Groups[1].Value);
+            MimeEntity image = linkedResources.Add($"image{++index}.png", bytes, new ContentType("image", "png"));
+            image.ContentId = MimeKit.Utils.MimeUtils.GenerateMessageId();
+            return $"src=\"cid:{image.ContentId}\"";
+        });
+    }
+
+    private static readonly System.Text.RegularExpressions.Regex DataImagePattern =
+        new("src=\"data:image/png;base64,([A-Za-z0-9+/=]+)\"", System.Text.RegularExpressions.RegexOptions.Compiled);
+
     private sealed class MailBatch(SmtpClient client, string from, ILogger logger) : IMailBatch
     {
         public async Task<bool> TrySendAsync(string to, string subject, string html, CancellationToken cancellationToken)
@@ -68,7 +84,9 @@ public sealed class MailService(IConfiguration configuration, ILogger<MailServic
                 message.From.Add(MailboxAddress.Parse(from));
                 message.To.Add(MailboxAddress.Parse(to));
                 message.Subject = subject;
-                message.Body = new BodyBuilder { HtmlBody = html }.ToMessageBody();
+                var body = new BodyBuilder();
+                body.HtmlBody = EmbedDataImages(html, body.LinkedResources);
+                message.Body = body.ToMessageBody();
                 await client.SendAsync(FormatOptions.Default, new SendRequest(message), cancellationToken);
                 return true;
             }

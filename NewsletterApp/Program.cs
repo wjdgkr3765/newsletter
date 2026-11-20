@@ -9,8 +9,9 @@ using NewsletterApp.Data;
 using NewsletterApp.Models;
 using NewsletterApp.Services;
 using NewsletterApp.Services.Contents;
+using NewsletterApp.Services.Weather;
 
-// .env(ConnectionStrings__Default, Gmail__Address, Gmail__AppPassword)를 환경 변수로 등록한다.
+// .env(ConnectionStrings__Default, Gmail__Address, Gmail__AppPassword, Weather__ServiceKey)를 환경 변수로 등록한다.
 DotNetEnv.Env.TraversePath().Load();
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,19 @@ builder.Services.AddSingleton<IUnsubscribeTokenService, UnsubscribeTokenService>
 builder.Services.AddSingleton<ISendLockService, SendLockService>();
 builder.Services.AddSingleton<DefaultContentBuilder>();
 builder.Services.AddSingleton<ContentBuilderResolver>();
+
+// 날씨 정보: 지역마다 "날씨 정보({지역})" 본문 생성기를 하나씩 등록한다. (docs/api.md 7번)
+builder.Services.AddHttpClient(WeatherForecastClient.HttpClientName, client => client.Timeout = TimeSpan.FromSeconds(10));
+builder.Services.AddSingleton<IWeatherForecastClient, WeatherForecastClient>();
+builder.Services.AddSingleton<WeatherMapRenderer>();
+List<WeatherRegion> weatherRegions = builder.Configuration.GetSection("Weather:Regions").Get<List<WeatherRegion>>() ?? [];
+foreach (WeatherRegion region in weatherRegions)
+{
+    builder.Services.AddSingleton<INewsletterContentBuilder>(services => new WeatherContentBuilder(
+        region, weatherRegions,
+        services.GetRequiredService<IWeatherForecastClient>(),
+        services.GetRequiredService<WeatherMapRenderer>()));
+}
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<MeService>();
 builder.Services.AddScoped<AdminUserService>();

@@ -15,10 +15,16 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.15" />
+    <PackageReference Include="SkiaSharp" Version="4.157.0" />
   </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="NewsletterApp.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 날씨 지도 윤곽. 실행 폴더에 복사해 WeatherMapRenderer가 읽는다. -->
+    <Content Update="Resources\korea_outline.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
